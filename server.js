@@ -14,7 +14,7 @@ const openai = new OpenAI({
 });
 
 app.post("/api/chat", async (req, res) => {
-  const { message, replyHistory } = req.body;
+  const { message, questions } = req.body;
 
   if (!message) {
     return res.status(400).json({ error: "Message is required" });
@@ -22,14 +22,14 @@ app.post("/api/chat", async (req, res) => {
 
   let responseText = "";
 
-  const conversation = replyHistory.map((msg) => {
+  const conversations = questions.map((msg) => {
     return {
       role: msg.sender === "user" ? "user" : "assistant",
       content: msg.text,
     };
   });
 
-  conversation.push({ role: "user", content: message });
+  conversations.push({ role: "user", content: message });
 
   // const completion = await openai.chat.completions.create({
   //   model: "gpt-4o-mini",
@@ -40,7 +40,7 @@ app.post("/api/chat", async (req, res) => {
   const response = await openai.responses.create({
     model: "gpt-4o-mini",
     tools: [{ type: "web_search" }],
-    input: conversation,
+    input: conversations,
   });
 
   responseText = response.output_text;
