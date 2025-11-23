@@ -6,8 +6,19 @@ import OpenAI from "openai";
 dotenv.config();
 
 const app = express();
-app.use(cors());
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "http://192.168.1.80:3000", // AZZA MSI
+      "http://192.168.1.122:3000", // YOGA SLIM
+      "http://192.168.1.100:3000", // GMKtec Server
+      "https://btkdevkh-chatbot-ai-react.netlify.app",
+    ],
+  })
+);
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -38,7 +49,7 @@ app.post("/api/chat", async (req, res) => {
   // responseText = completion.choices[0].message.content;
 
   const response = await openai.responses.create({
-    model: "gpt-4o-mini",
+    model: "gpt-5-mini",
     tools: [{ type: "web_search" }],
     input: conversations,
   });
