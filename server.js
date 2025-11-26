@@ -12,9 +12,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "http://192.168.1.80:3000", // AZZA MSI
-      "http://192.168.1.122:3000", // YOGA SLIM
-      "http://192.168.1.100:3000", // GMKtec Server
+      "http://192.168.1.80:3000",
+      "http://192.168.1.122:3000",
       "https://btkdevkh-chatbot-ai-react.netlify.app",
     ],
   })
